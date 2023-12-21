@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sensors_plus/sensors_plus.dart';
 
 class SensorScreen extends StatelessWidget {
   const SensorScreen({super.key});
@@ -11,19 +12,33 @@ class SensorScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Positioned(
-            left: centerX,
-            top: centerY,
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.green,
-                shape: BoxShape.circle,
-              ),
-              // BoxDecoration 동시 사용시 중복 오류 주의!
-              // color: Colors.red,
-              width: 100,
-              height: 100,
-            ),
+          StreamBuilder<AccelerometerEvent>(
+            stream: accelerometerEventStream(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
+              final AccelerometerEvent accEvent = snapshot.data!;
+              print('${accEvent.x} ${accEvent.y} ${accEvent.z}');
+
+              return Positioned(
+                left: centerX,
+                top: centerY,
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.green,
+                    shape: BoxShape.circle,
+                  ),
+                  // BoxDecoration 동시 사용시 중복 오류 주의!
+                  // color: Colors.red,
+                  width: 100,
+                  height: 100,
+                ),
+              );
+            }
           ),
         ],
       ),
