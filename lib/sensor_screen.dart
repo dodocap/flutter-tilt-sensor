@@ -16,33 +16,31 @@ class SensorScreen extends StatelessWidget {
       body: Stack(
         children: [
           StreamBuilder<AccelerometerEvent>(
-            stream: accelerometerEventStream(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
+              stream: accelerometerEventStream(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
 
-              final AccelerometerEvent accEvent = snapshot.data!;
-              print('${accEvent.x} ${accEvent.y} ${accEvent.z}');
+                final AccelerometerEvent accEvent = snapshot.data!;
 
-              return Positioned(
-                left: centerX,
-                top: centerY,
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.green,
-                    shape: BoxShape.circle,
+                return Positioned(
+                  left: centerX + accEvent.y * 20,
+                  top: centerY + accEvent.x * 20,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.green,
+                      shape: BoxShape.circle,
+                    ),
+                    // BoxDecoration 동시 사용시 중복 오류 주의!
+                    // color: Colors.red,
+                    width: 100,
+                    height: 100,
                   ),
-                  // BoxDecoration 동시 사용시 중복 오류 주의!
-                  // color: Colors.red,
-                  width: 100,
-                  height: 100,
-                ),
-              );
-            }
-          ),
+                );
+              }),
         ],
       ),
     );
