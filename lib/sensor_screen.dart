@@ -15,7 +15,12 @@ class SensorScreen extends StatelessWidget {
             left: centerX,
             top: centerY,
             child: Container(
-              color: Colors.red,
+              decoration: const BoxDecoration(
+                color: Colors.green,
+                shape: BoxShape.circle,
+              ),
+              // BoxDecoration 동시 사용시 중복 오류 주의!
+              // color: Colors.red,
               width: 100,
               height: 100,
             ),
